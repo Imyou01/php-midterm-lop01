@@ -1,0 +1,176 @@
+==========================================================================
+ĐỀ KIỂM TRA GIỮA KỲ PHP - LỚP 01
+Họ và tên: ................................................
+Lớp: ......................................................
+Ngày làm: 22/09/2026
+==========================================================================
+
+PHẦN 1: TRẮC NGHIỆM
+==========================================================================
+
+
+--------------------------------------------------------------------------
+Câu 1: Điền kết quả được in ra màn hình của đoạn mã sau
+--------------------------------------------------------------------------
+
+    <?php
+    function fibonacci($n) {
+        if ($n == 0) return 0;
+        if ($n == 1) return 1;
+        return fibonacci($n - 1) + fibonacci($n - 2);
+    }
+
+    $result = fibonacci(5);
+    echo $result;
+    ?>
+
+ĐÁP ÁN: 5
+
+
+GIẢI THÍCH:
+Hàm fibonacci($n) là đệ quy: trả về 0 nếu $n = 0, trả về 1 nếu $n = 1,
+ngược lại trả về fibonacci($n-1) + fibonacci($n-2).
+
+Khai triển dãy Fibonacci theo chỉ số:
+    fibonacci(0) = 0
+    fibonacci(1) = 1
+    fibonacci(2) = fibonacci(1) + fibonacci(0) = 1 + 0 = 1
+    fibonacci(3) = fibonacci(2) + fibonacci(1) = 1 + 1 = 2
+    fibonacci(4) = fibonacci(3) + fibonacci(2) = 2 + 1 = 3
+    fibonacci(5) = fibonacci(4) + fibonacci(3) = 3 + 2 = 5
+
+=> $result = 5, lệnh echo in ra màn hình: 5
+
+
+--------------------------------------------------------------------------
+Câu 2: Điền kết quả được in ra màn hình của đoạn mã sau
+--------------------------------------------------------------------------
+
+    <?php
+    $var1 = 10;
+
+    function myFunction() {
+        $var2 = 20;
+        echo $var1 + $var2;
+    }
+
+    myFunction();
+    ?>
+
+    a) 10
+    b) 20
+    c) 30
+    d) Error
+
+ĐÁP ÁN: b) 20
+
+
+GIẢI THÍCH:
+Đây là bài về PHẠM VI BIẾN (variable scope) trong PHP.
+
+- $var1 = 10 được khai báo ở phạm vi GLOBAL (ngoài hàm).
+- Trong PHP, biến global KHÔNG tự động truy cập được bên trong hàm.
+  Muốn dùng phải khai báo thêm từ khóa `global $var1;` hoặc dùng
+  mảng siêu toàn cục $GLOBALS['var1'].
+- Đoạn code trên KHÔNG có từ khóa global, nên bên trong myFunction()
+  biến $var1 chưa được định nghĩa -> PHP hiểu là NULL.
+  (PHP 8 có kèm cảnh báo "Warning: Undefined variable $var1" nhưng
+   chương trình vẫn chạy tiếp, không dừng lại)
+- Phép tính: NULL + 20 = 20  (NULL được ép kiểu về 0 khi cộng số)
+- Vậy màn hình in ra: 20  => đáp án b)
+
+GHI CHÚ: Đáp án d) Error là SAI, vì PHP chỉ báo WARNING chứ không
+báo lỗi Fatal Error, nên code vẫn in ra kết quả.
+
+
+--------------------------------------------------------------------------
+Câu 3: Biến trong PHP bắt đầu bằng ký tự gì?
+--------------------------------------------------------------------------
+
+    a) #
+    b) @
+    c) %
+    d) $
+
+ĐÁP ÁN: d) $
+
+
+GIẢI THÍCH:
+Trong PHP, mọi biến đều bắt đầu bằng ký tự $, theo sau là tên biến.
+Ví dụ: $ten, $age, $total_volume.
+
+Quy tắc đặt tên biến trong PHP:
+    - Bắt đầu bằng dấu $ và theo sau là tên biến
+    - Tên biến phải bắt đầu bằng một chữ cái hoặc dấu gạch dưới (_)
+    - Tên biến KHÔNG được bắt đầu bằng số
+    - Tên biến chỉ chứa chữ cái, chữ số và dấu gạch dưới (A-z, 0-9, _)
+    - Tên biến PHÂN BIỆT chữ hoa chữ thường ($age và $AGE là 2 biến khác nhau)
+
+Ký tự # dùng cho comment một dòng, @ dùng để chặn thông báo lỗi,
+% là toán tử modulo - không phải ký tự khai báo biến.
+
+
+--------------------------------------------------------------------------
+Câu 4: Hàm nào dùng để in ra màn hình trong PHP?
+--------------------------------------------------------------------------
+
+    a) echo()
+    b) print()
+    c) printf()
+    d) display()
+
+ĐÁP ÁN: a) echo()
+
+
+GIẢI THÍCH:
+echo là lệnh/hàm được dùng phổ biến nhất để xuất dữ liệu ra màn hình
+trong PHP. Đây là ngôn ngữ construct của PHP nên có thể viết không cần
+ngoặc: echo "Hello" hoặc echo("Hello").
+
+Lưu ý: print() cũng xuất được dữ liệu ra màn hình nhưng đáp án chuẩn
+theo nội dung bài giảng là echo() (echo nhanh hơn print, không trả về
+giá trị, còn print trả về 1).
+printf() là hàm để in có định dạng, display() KHÔNG tồn tại trong PHP.
+
+
+--------------------------------------------------------------------------
+Câu 5: Trong PHP, sự khác biệt giữa == và === là gì?
+--------------------------------------------------------------------------
+
+    a) == so sánh giá trị, === so sánh giá trị và kiểu dữ liệu
+    b) == chỉ so sánh giá trị, === chỉ so sánh kiểu dữ liệu
+    c) == so sánh giá trị và kiểu dữ liệu, === chỉ so sánh giá trị
+    d) == so sánh giá trị, === không phải là toán tử so sánh
+
+ĐÁP ÁN: a) == so sánh giá trị, === so sánh giá trị và kiểu dữ liệu
+
+
+GIẢI THÍCH:
+- ==  là toán tử so sánh LỎNG (loose comparison): chỉ so sánh GIÁ TRỊ,
+  có tự động ép kiểu (type juggling) trước khi so sánh.
+- === là toán tử so sánh CHẶT (strict comparison): so sánh CẢ giá trị
+  LẪN kiểu dữ liệu, không ép kiểu.
+
+Ví dụ minh họa:
+    var_dump( 5 ==  "5" );   // bool(true)   -> khác kiểu nhưng cùng giá trị
+    var_dump( 5 === "5" );   // bool(false)  -> khác kiểu dữ liệu (int vs string)
+    var_dump( 0 ==  false ); // bool(true)
+    var_dump( 0 === false ); // bool(false)
+
+=> Đáp án đúng là a).
+
+
+==========================================================================
+PHẦN 2: THỰC HÀNH  (xem file bai1_is_prime.php và bai2_products.php)
+==========================================================================
+
+Bài 1: Chương trình kiểm tra số nguyên tố
+       -> File: bai1_is_prime.php
+
+Bài 2: Ứng dụng quản lý sản phẩm bằng mảng kết hợp
+       -> File: bai2_products.php
+
+Cách chạy: đặt thư mục này vào htdocs của XAMPP, mở trình duyệt truy cập
+           http://localhost/midterm-php-lop01/
+
+==========================================================================
