@@ -10,9 +10,8 @@
 
 ```
 .
-├── README.md                 <- file này
+├── README.md
 ├── trac-nghiem.txt           <- PHẦN 1: trắc nghiệm (5 câu) — làm bằng file text
-├── index.php                 <- trang chủ, dẫn link tới các bài
 ├── bai1_is_prime.php         <- PHẦN 2 - Bài 1: kiểm tra số nguyên tố
 └── bai2_products.php         <- PHẦN 2 - Bài 2: quản lý sản phẩm (mảng kết hợp)
 ```
@@ -79,28 +78,14 @@ Yêu cầu:
   `false` nếu không.
 - Dùng hàm để hiển thị danh sách số nguyên tố từ 1 đến 100.
 
-Cài đặt:
-
 ```php
-function isPrime(int $n)
-{
-    if ($n < 2) {          // 0, 1, số âm không phải SNT
-        return false;
-    }
-    if ($n < 4) {          // 2 và 3
-        return true;
-    }
-    if ($n % 2 == 0) {     // số chẵn > 2
-        return false;
-    }
-
-    // Mọi hợp số đều có ước <= căn bậc hai của nó
+function isPrime(int $n) {
+    if ($n < 2) return false;
+    if ($n < 4) return true;
+    if ($n % 2 == 0) return false;
     for ($i = 3; $i * $i <= $n; $i = $i + 2) {
-        if ($n % $i == 0) {
-            return false;
-        }
+        if ($n % $i == 0) return false;
     }
-
     return true;
 }
 ```
@@ -114,15 +99,8 @@ Tổng cộng: 25 số nguyên tố
 
 > **Đối chiếu lý thuyết:** có đúng **25** số nguyên tố nhỏ hơn 100 ✔
 
-Chương trình gồm 3 phần hiển thị:
-1. Bảng kiểm tra thử 11 giá trị (0, 1, 2, 3, 4, 9, 11, 17, 25, 97, 100) kèm lý do
-2. Danh sách 25 số nguyên tố từ 1 → 100
-3. Bảng 10×10 các số 1 → 100, **số nguyên tố in đậm**
-
-Điểm tối ưu trong code:
-- `$n < 2` xử lý luôn 0, 1 và số âm.
-- Chỉ duyệt các số **lẻ** từ 3 (`$i = $i + 2`) thay vì duyệt hết.
-- Điều kiện dừng `$i * $i <= $n` — độ phức tạp O(√n) thay vì O(n).
+Cách làm: chỉ thử chia cho các số **lẻ** từ 3, dừng khi `$i * $i > $n` — mọi hợp số
+đều có ước nhỏ hơn hoặc bằng căn bậc hai của nó, nên không cần duyệt tới `$n`.
 
 ### Bài 2 — Quản lý sản phẩm bằng mảng kết hợp (`bai2_products.php`)
 
@@ -131,23 +109,17 @@ Yêu cầu:
 - Hiển thị thông tin của tất cả sản phẩm trong mảng.
 - Viết hàm tính tổng giá trị của tất cả sản phẩm (`price * quantity`).
 
-Cài đặt:
-
 ```php
 $products = array(
-    array("name" => "Áo thun nam",  "price" => 150000, "quantity" => 12),
+    array("name" => "Áo thun nam", "price" => 150000, "quantity" => 12),
     array("name" => "Quần jean nữ", "price" => 320000, "quantity" => 7),
     // ...
 );
 
-function lineTotal($sanPham) {                 // thành tiền 1 sản phẩm
-    return $sanPham["price"] * $sanPham["quantity"];
-}
-
-function totalValue($danhSach) {               // tổng giá trị cả cửa hàng
+function totalValue($products) {
     $tong = 0;
-    foreach ($danhSach as $sanPham) {
-        $tong = $tong + ($sanPham["price"] * $sanPham["quantity"]);
+    foreach ($products as $p) {
+        $tong = $tong + $p["price"] * $p["quantity"];
     }
     return $tong;
 }
@@ -155,32 +127,34 @@ function totalValue($danhSach) {               // tổng giá trị cả cửa h
 
 Kết quả:
 
-| STT | Tên sản phẩm | Đơn giá | SL | Thành tiền |
-|:---:|---|---|---:|---:|
-| 1 | Áo thun nam | 150.000 đ | 12 | 1.800.000 đ |
-| 2 | Quần jean nữ | 320.000 đ | 7 | 2.240.000 đ |
-| 3 | Giày thể thao | 850.000 đ | 4 | 3.400.000 đ |
-| 4 | Balo học sinh | 240.000 đ | 15 | 3.600.000 đ |
-| 5 | Điện thoại Samsung Galaxy A52 | 6.500.000 đ | 3 | 19.500.000 đ |
-| 6 | Tai nghe Bluetooth | 490.000 đ | 9 | 4.410.000 đ |
-| | **TỔNG CỘNG** | | **50** | **34.950.000 đ** |
+| Tên sản phẩm | Đơn giá | Số lượng |
+|---|---:|:---:|
+| Áo thun nam | 150000 | 12 |
+| Quần jean nữ | 320000 | 7 |
+| Giày thể thao | 850000 | 4 |
+| Balo học sinh | 240000 | 15 |
+| Điện thoại Samsung Galaxy A52 | 6500000 | 3 |
 
-Các hàm hỗ trợ thêm:
-- `totalQuantity()` — tổng số lượng hàng trong kho
-- `mostValuableProduct()` — sản phẩm có thành tiền cao nhất
-- `kiemTraDuLieu()` — kiểm tra mỗi sản phẩm có đủ 3 khóa
-- `formatVnd()` — thêm dấu chấm phân cách hàng nghìn cho số tiền
+```
+Tổng giá trị tất cả sản phẩm: 30540000 VNĐ
+```
+
+Kiểm tra: 150000×12 + 320000×7 + 850000×4 + 240000×15 + 6500000×3
+= 1.800.000 + 2.240.000 + 3.400.000 + 3.600.000 + 19.500.000
+= **30.540.000** ✔
 
 ---
 
 ## Cách chạy
 
-### XAMPP (đúng môi trường môn học)
+### XAMPP
 
 1. Cài XAMPP: <https://www.apachefriends.org/>
 2. Copy thư mục này vào `C:\xampp\htdocs\midterm-php-lop01\`
 3. Bật **Apache** trong XAMPP Control Panel
-4. Mở trình duyệt: <http://localhost/midterm-php-lop01/>
+4. Mở trình duyệt:
+   - <http://localhost/midterm-php-lop01/bai1_is_prime.php>
+   - <http://localhost/midterm-php-lop01/bai2_products.php>
 
 ### Kiểm tra cú pháp
 
@@ -196,9 +170,9 @@ php -l bai2_products.php
 | Mục | Giá trị |
 |---|---|
 | PHP | 8.3.33 (chạy qua `php -S` như XAMPP) |
-| Kiểm tra cú pháp | `php -l` — không lỗi cả 3 file |
-| Bài 1 | 25 số nguyên tố 1→100, bảng 10×10 in đậm 25 ô ✔ |
-| Bài 2 | tổng 34.950.000 đ, 6 sản phẩm, 50 sản phẩm trong kho ✔ |
+| Kiểm tra cú pháp | `php -l` — không lỗi cả 2 file |
+| Bài 1 | 25 số nguyên tố từ 1→100 ✔ |
+| Bài 2 | tổng 30540000 ✔ |
 | Warning / Notice / Fatal | 0 ✔ |
 | Câu 1 trắc nghiệm | `5` ✔ |
 | Câu 2 trắc nghiệm | `20` (kèm Warning) ✔ |
